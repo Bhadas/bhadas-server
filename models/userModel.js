@@ -2,22 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto')
 
-var userSchema = new mongoose.Schema({
-    firstname:{
-        type:String,
-        required:true,
-        
-    },
-    lastname:{
-        type:String,
-        required:true,
-    },  
+var userSchema = new mongoose.Schema({ 
     email:{
-        type:String,
-        required:true,
-        unique:true,
-    },
-    mobile:{
         type:String,
         required:true,
         unique:true,
@@ -34,14 +20,6 @@ var userSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
-    cart:{
-        type:Array,
-        default:[],
-    },
-    address:{
-        type:String,
-    },
-    wishlist:[{type:mongoose.Schema.Types.ObjectId , ref:"Product"}],
     refreshToken:{
         type:String,
     },
