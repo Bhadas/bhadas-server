@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4000
 const authRouter = require("./routes/authRoute");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan')
 
@@ -18,6 +18,12 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser());
+
+const corsOptions = {
+    origin: '*', 
+  };
+  
+app.use(cors(corsOptions));
 
 app.use("/api/user", authRouter)
 app.use("/api/chat", chatRoutes);
