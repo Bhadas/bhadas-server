@@ -1,16 +1,16 @@
 import express from "express";
 import { addComment, editComment, deleteComment,getCommentsByPostId,addReplyToComment, deleteReplyToComment, getComments, getAllComments } from "../controllers/commentController.js";
-import { verifyAdminToken, verifyStudentToken } from "../middleware/authorization.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/getAll/:postId",verifyStudentToken, getComments)
-router.get("/getAll",verifyAdminToken, getAllComments)
-router.post("/add",verifyStudentToken, addComment);
-router.put("/edit", verifyStudentToken, editComment);
-router.delete("/delete/:id", verifyStudentToken, deleteComment);
-router.get("/:postId", verifyStudentToken, getCommentsByPostId);
-router.post("/reply", verifyStudentToken, addReplyToComment);
-router.delete("/reply", verifyStudentToken, deleteReplyToComment);
+router.get("/getAll/:postId",authMiddleware, getComments)
+router.get("/getAll",authMiddleware, getAllComments)
+router.post("/add",authMiddleware, addComment);
+router.put("/edit", authMiddleware, editComment);
+router.delete("/delete/:id", authMiddleware, deleteComment);
+router.get("/:postId", authMiddleware, getCommentsByPostId);
+router.post("/reply", authMiddleware, addReplyToComment);
+router.delete("/reply", authMiddleware, deleteReplyToComment);
 
 export default router;  
