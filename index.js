@@ -1,13 +1,12 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const dbConnect = require('./config/dbConnect');
-const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const app = express()
 const dotenv = require('dotenv').config();
 const PORT = process.env.PORT || 4000
 const authRouter = require("./routes/authRoute");
-const postRoutes = "./routes/postRoute.js";
-import commentRoutes from "./routes/commentRoutes";
+const postRoutes = require("./routes/postRoute.js");
+const commentRoutes = require("./routes/commentRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const cors = require('cors');
@@ -34,8 +33,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 
 
-app.use(notFound);
-app.use(errorHandler);
+
 
 const server = app.listen(PORT,console.log(`Server running on PORT ${PORT}...`));
 

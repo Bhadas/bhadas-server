@@ -1,8 +1,7 @@
-import imageUpload from "../helpers/cloudinary.js";
-import Like from "../models/Like.js";
-import Post from "../models/Post.js";
+const Like =  require("../models/Like.js");
+const { default: Post } = require("../models/postModel.js");
 
-export const addPost = async (req, res) => {
+exports.addPost = async (req, res) => {
   try {
     const {
       postTags,
@@ -30,7 +29,7 @@ export const addPost = async (req, res) => {
   }
 };
 
-export const editPost = async (req, res) => {
+exports.editPost = async (req, res) => {
   try {
     const {
       postId,
@@ -65,7 +64,7 @@ export const editPost = async (req, res) => {
   }
 };
 
-export const deletePost = async (req, res) => {
+exports.deletePost = async (req, res) => {
   try {
     const { id } = req.body;
     const post = await Post.findByIdAndDelete(id);
@@ -85,7 +84,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const getAllPost = async (req, res) => {
+exports.getAllPost = async (req, res) => {
   try {
     const allPosts = (await Post.find()).flat();
     if (!allPosts)
@@ -102,7 +101,7 @@ export const getAllPost = async (req, res) => {
 
 
 
-export const likethePost = async (req, res) => {
+exports.likethePost = async (req, res) => {
   const {postId, userName } = req.body;
   const post = await Post.findById(postId);
   console.log("userName",userName, "postId", postId)

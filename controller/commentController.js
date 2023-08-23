@@ -1,8 +1,8 @@
-import Reply from "../models/Reply";
-import Comment from "../models/comment";
-import Post from "../models/postModel";
+const Reply = require("../models/Reply");
+const Comment = require("../models/comment");
+const Post = require("../models/postModel");
 
-export const getComments = async (req, res) => {
+exports.getComments = async (req, res) => {
     try {
       const postId = req.params.postId;
       // console.log("<<<<<<<<<<", postId);
@@ -19,7 +19,7 @@ export const getComments = async (req, res) => {
     }
   };
 
-export const getAllComments = async(req,res)=>{
+exports.getAllComments = async(req,res)=>{
   try{ 
     const allComments = await Comment.find().populate('postId');
     if (!allComments || allComments.length === 0) {
@@ -33,7 +33,7 @@ export const getAllComments = async(req,res)=>{
   }
 }  
 
-export const addComment = async (req, res) => {
+exports.addComment = async (req, res) => {
   try {
     const { postId, text, userName } = req.body;
     console.log("<<>><>><>", req.body);
@@ -63,7 +63,7 @@ export const addComment = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${error}` });
   }
 };
-export const editComment = async (req, res) => {
+exports.editComment = async (req, res) => {
   try {
     const { commentId, commentDescription } = req.body;
     const updatedComment = await Comment.findByIdAndUpdate(
@@ -86,7 +86,7 @@ export const editComment = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${error}` });
   }
 };
-export const deleteComment = async (req, res) => {
+exports.deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
     const comment = await Comment.findByIdAndDelete(id);
@@ -108,7 +108,7 @@ export const deleteComment = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${error}` });
   }
 };
-export const getCommentsByPostId = async (req, res) => {
+exports.getCommentsByPostId = async (req, res) => {
   try {
     const { postId } = req.params;
     // const replyIds = [];
@@ -136,7 +136,7 @@ export const getCommentsByPostId = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${err}` });
   }
 };
-export const addReplyToComment = async (req, res) => {
+exports.addReplyToComment = async (req, res) => {
   try {
     const { replyDescription, replyCommentId, replyCreatedBy } = req.body;
     const newReply = new Reply({
@@ -168,7 +168,7 @@ export const addReplyToComment = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${err}` });
   }
 };
-export const editReplyToComment = async (req, res) => {
+exports.editReplyToComment = async (req, res) => {
   try {
     const { replyDescription, replyId } = req.body;
     const updatedReply = Reply.findByIdAndUpdate(
@@ -191,7 +191,7 @@ export const editReplyToComment = async (req, res) => {
       .json({ isSucces: false, message: `Request failed due to ${err}` });
   }
 };
-export const deleteReplyToComment = async (req, res) => {
+exports.deleteReplyToComment = async (req, res) => {
   try {
     const { id } = req.body;
     const reply = await Reply.findByIdAndDelete(id);

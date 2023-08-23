@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const LikeSchema = new mongoose.Schema(
   {
     postId: {
@@ -15,5 +15,5 @@ const LikeSchema = new mongoose.Schema(
     timestamps: { createdAt: true, updatedAt: false }
   }
 );
-const Like = mongoose.model("Like", LikeSchema);
-export default Like;
+exports.Like = mongoose.model("Like", LikeSchema);
+

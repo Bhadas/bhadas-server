@@ -1,6 +1,6 @@
-import express from "express";
-import { addComment, editComment, deleteComment,getCommentsByPostId,addReplyToComment, deleteReplyToComment, getComments, getAllComments } from "../controllers/commentController.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+const express = require("express");
+const { authMiddleware } = require("../middlewares/authMiddleware.js");
+const { getComments, getAllComments, addComment, editComment, deleteComment, getCommentsByPostId, addReplyToComment, deleteReplyToComment } = require("../controller/commentController");
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.get("/:postId", authMiddleware, getCommentsByPostId);
 router.post("/reply", authMiddleware, addReplyToComment);
 router.delete("/reply", authMiddleware, deleteReplyToComment);
 
-export default router;  
+module.exports = router
