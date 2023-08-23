@@ -10,6 +10,7 @@ const uniqid = require("uniqid")
 
 //creating User
 const createUser = asyncHandler(async (req, res) => {
+  // console.log(req.body)
   const email = req.body.email;
   const findUser = await User.findOne({ email: email });
   if (!findUser) {
