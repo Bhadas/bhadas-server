@@ -7,8 +7,10 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 const crypto = require("crypto");
 const uniqid = require("uniqid")
+const {namesArray} = require('./data')
+const {imagesArray} = require('./data')
 
-//creating User
+
 const createUser = asyncHandler(async (req, res) => {
   // console.log(req.body)
   const email = req.body.email;
@@ -25,6 +27,30 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
+async function getUniqueName() {
+  let name;
+  const existingNames = new Set();
+
+  do {
+    name = getRandomNameFromNamesArray();
+    console.log("<<<<",name)
+    const userWithSameName = await User.findOne({ name });
+    if (!userWithSameName && !existingNames.has(name)) {
+      return name;
+    }
+    existingNames.add(name);
+  } while (true);
+}
+
+function getRandomNameFromNamesArray() {
+  const randomIndex = Math.floor(Math.random() * namesArray.length);
+  return namesArray[randomIndex];
+}
+
+function getRandomImageFromImagesArray() {
+  const randomIndex = Math.floor(Math.random() * imagesArray.length);
+  return imagesArray[randomIndex];
+}
 //login user
 
 const loginUserCtrl = asyncHandler(async (req, res) => {

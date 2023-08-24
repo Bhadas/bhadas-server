@@ -1,5 +1,5 @@
 const Like =  require("../models/Like.js");
-const { default: Post } = require("../models/postModel.js");
+const Post = require("../models/postModel.js");
 
 exports.addPost = async (req, res) => {
   try {
@@ -8,10 +8,9 @@ exports.addPost = async (req, res) => {
       postDescription,
       postCreatedBy,
     } = req.body;
-    const postTagsArray = postTags.split(",");
     
     const newPost = new Post({
-      postTags: postTagsArray,
+      postTags,
       postDescription,
       postCreatedBy,
     });
@@ -22,10 +21,10 @@ exports.addPost = async (req, res) => {
         .json({ isSucces: true, message: "Post created successfully." });
     } else
       res.status(409).json({ isSucces: false, message: "Request failed." });
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
-      .json({ isSucces: false, message: `Request failed due to ${err}` });
+      .json({ isSucces: false, message: `Request failed due to ${error}` });
   }
 };
 
@@ -57,7 +56,7 @@ exports.editPost = async (req, res) => {
           data: post,
         });
     else res.status(409).json({ isSucces: false, message: "Request Failed." });
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
       .json({ isSucces: false, message: `Request failed due to ${error}` });
@@ -77,7 +76,7 @@ exports.deletePost = async (req, res) => {
           data: post,
         });
     else res.status(409).json({ isSucces: false, message: "Request Failed" });
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
       .json({ isSucces: false, message: `Request failed due to ${error}` });
@@ -86,13 +85,13 @@ exports.deletePost = async (req, res) => {
 
 exports.getAllPost = async (req, res) => {
   try {
-    const allPosts = (await Post.find()).flat();
+    const allPosts = await Post.find().populate('postCreatedBy');
     if (!allPosts)
       res.status(404).json({ isSucces: false, message: "No Data" });
     res
       .status(200)
       .json({ isSucces: true, message: "All Posts Found", data: allPosts });
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
       .json({ isSucces: false, message: `Request failed due to ${error}` });
