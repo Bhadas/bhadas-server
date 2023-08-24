@@ -22,7 +22,7 @@ const createUser = asyncHandler(async (req, res) => {
       const randomImage = getRandomImageFromImagesArray();
       console.log("<<",randomImage)
       newUser.username = uniqueName;
-      newUser.image = randomImage;
+      newUser.image = randomImage; 
 
       const savedUser = await newUser.save();
 
