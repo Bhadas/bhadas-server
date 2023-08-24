@@ -7,9 +7,12 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 const crypto = require("crypto");
 const uniqid = require("uniqid")
+const {namesArray} = require('./data')
+const {imagesArray} = require('./data')
 
-//creating User
+
 const createUser = asyncHandler(async (req, res) => {
+<<<<<<< Updated upstream
   // console.log(req.body)
   const email = req.body.email;
   const findUser = await User.findOne({ email: email });
@@ -19,9 +22,55 @@ const createUser = asyncHandler(async (req, res) => {
     res.json(newUser);
   } else {
     throw new Error("User Already Exists");
+=======
+  try {
+    const email = req.body.email;
+    const findUser = await User.findOne({ email: email });
+
+    if (!findUser) {
+      const newUser = new User(req.body);
+      const uniqueName = await getUniqueName();
+      const randomImage = getRandomImageFromImagesArray();
+      console.log("<<",randomImage)
+      newUser.username = uniqueName;
+      newUser.image = randomImage;
+
+      const savedUser = await newUser.save();
+
+      res.json(savedUser);
+    } else {
+      throw new Error("User Already Exists");
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+>>>>>>> Stashed changes
   }
 });
 
+async function getUniqueName() {
+  let name;
+  const existingNames = new Set();
+
+  do {
+    name = getRandomNameFromNamesArray();
+    console.log("<<<<",name)
+    const userWithSameName = await User.findOne({ name });
+    if (!userWithSameName && !existingNames.has(name)) {
+      return name;
+    }
+    existingNames.add(name);
+  } while (true);
+}
+
+function getRandomNameFromNamesArray() {
+  const randomIndex = Math.floor(Math.random() * namesArray.length);
+  return namesArray[randomIndex];
+}
+
+function getRandomImageFromImagesArray() {
+  const randomIndex = Math.floor(Math.random() * imagesArray.length);
+  return imagesArray[randomIndex];
+}
 //login user
 
 const loginUserCtrl = asyncHandler(async (req, res) => {

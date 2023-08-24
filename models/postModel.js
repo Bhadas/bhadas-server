@@ -9,7 +9,7 @@ const PostSchema = new mongoose.Schema(
     },
     postDescription: {
       type: String,
-      required: false,
+      required: true,
       default: "",
       max: 2000,
     },
@@ -35,4 +35,4 @@ const PostSchema = new mongoose.Schema(
   }
 );
 const Post = mongoose.model("Post", PostSchema);
-module.exports = {Post};
+module.exports = Post;
