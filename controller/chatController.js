@@ -82,7 +82,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
 
-  var users = JSON.parse(req.body.users);
+  var users = (req.body.users);
 
   if (users.length < 2) {
     return res
@@ -193,6 +193,26 @@ const addToGroup = asyncHandler(async (req, res) => {
   }
 });
 
+const getAllGroup = asyncHandler(async (req, res) => {
+  try {
+    Chat.find({isGroupChat: true, users: { $elemMatch: { $eq: req.user._id } } })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password")
+      .populate("latestMessage")
+      .sort({ updatedAt: -1 })
+      .then(async (results) => {
+        results = await User.populate(results, {
+          path: "latestMessage.sender",
+          select: "name pic email",
+        });
+        res.status(200).send(results);
+      });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
 module.exports = {
   accessChat,
   fetchChats,
@@ -200,4 +220,5 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  getAllGroup,
 };
