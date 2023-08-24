@@ -12,17 +12,6 @@ const {imagesArray} = require('./data')
 
 
 const createUser = asyncHandler(async (req, res) => {
-<<<<<<< Updated upstream
-  // console.log(req.body)
-  const email = req.body.email;
-  const findUser = await User.findOne({ email: email });
-  if (!findUser) {
-    //Creating new User
-    const newUser = await User.create(req.body);
-    res.json(newUser);
-  } else {
-    throw new Error("User Already Exists");
-=======
   try {
     const email = req.body.email;
     const findUser = await User.findOne({ email: email });
@@ -43,7 +32,7 @@ const createUser = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
->>>>>>> Stashed changes
+    console.log(error.message)
   }
 });
 
