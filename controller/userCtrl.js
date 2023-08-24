@@ -25,14 +25,17 @@ const createUser = asyncHandler(async (req, res) => {
       newUser.image = randomImage; 
 
       const savedUser = await newUser.save();
+      const token= await genetrateToken(savedUser._id);
 
-      res.json(savedUser);
+      let user = {...savedUser._doc, token: token}
+      res.json(user);
     } else {
       throw new Error("User Already Exists");
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.log(error.message)
+
   }
 });
 
@@ -81,14 +84,12 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       httpOnly: true,
       maxAge: 72 * 60 * 60 * 1000,
     });
-    res.json({
-      _id: findUser?._id,
-      firstname: findUser?.firstname,
-      lastname: findUser?.lastname,
-      email: findUser?.email,
-      mobile: findUser?.mobile,
-      token: genetrateToken(findUser?._id),
-    });
+    
+    const token= await genetrateToken(findUser?._id);
+    const resBody = {
+     ...findUser._doc, token: token
+    }
+    res.json(resBody);
   } else {
     throw new Error("Invalid Credentials");
   }
