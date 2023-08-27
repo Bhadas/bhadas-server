@@ -101,9 +101,10 @@ exports.getAllPost = async (req, res) => {
 
 
 exports.likethePost = async (req, res) => {
-  const {postId, userName } = req.body;
+  try{
+    const {postId, userId } = req.body;
   const post = await Post.findById(postId);
-  console.log("userName",userName, "postId", postId)
+  console.log("userId",userId, "postId", postId)
   const isLiked = post?.isLiked;
 
   if (isLiked) {
@@ -115,7 +116,7 @@ exports.likethePost = async (req, res) => {
       },
       { new: true }
     );
-    await Like.findOneAndDelete({ postId, userName })
+    await Like.findOneAndDelete({ postId, userId })
     console.log("<<<<<",post)
     res.json(post);
   } else {
@@ -127,9 +128,14 @@ exports.likethePost = async (req, res) => {
       },
       { new: true }
     );
-    await Like.create({ postId, userName });
+    await Like.create({ postId, userId });
     console.log(">>>>>>",post)
 
     res.json(post);
   }
+  }catch(error){
+    console.error(error.message)
+  }
 };
+
+

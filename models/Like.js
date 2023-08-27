@@ -5,15 +5,16 @@ const LikeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
-    userName: {
-      type: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
       required: true,
-      default: "",
     },
   },
   {
     timestamps: { createdAt: true, updatedAt: false }
   }
 );
-exports.Like = mongoose.model("Like", LikeSchema);
+const Like = mongoose.model("Like", LikeSchema);
+module.exports = Like;
 
