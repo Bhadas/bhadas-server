@@ -10,7 +10,7 @@ exports.getComments = async (req, res) => {
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
       }  
-      const comments = await Comment    .find({ postId });
+      const comments = await Comment.find({ postId });
       console.log("<<<>><><><",comments)
       res.status(200).json({ isSucces: true, message: "Comments", data: comments });
     } catch (error) {
