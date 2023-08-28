@@ -18,9 +18,8 @@ const CommentSchema = new mongoose.Schema(
     //     default: {}
     // },
     commentCreatedBy: {
-      type: String,
-      required: true,
-      default: "",
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
     },
   },
   {

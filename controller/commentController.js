@@ -10,7 +10,7 @@ exports.getComments = async (req, res) => {
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
       }  
-      const comments = await Comment.find({ postId });
+      const comments = await Comment.find({ postId }).populate('commentCreatedBy');
       console.log("<<<>><><><",comments)
       res.status(200).json({ isSucces: true, message: "Comments", data: comments });
     } catch (error) {
@@ -21,7 +21,7 @@ exports.getComments = async (req, res) => {
 
 exports.getAllComments = async(req,res)=>{
   try{ 
-    const allComments = await Comment.find().populate('postId');
+    const allComments = await Comment.find().populate('postId').populate('commentCreatedBy');
     if (!allComments || allComments.length === 0) {
       return res.status(404).json({ isSuccess: false, message: "No data" });
     }
